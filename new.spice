@@ -1,0 +1,40 @@
+** sch_path: /foss/designs/ttsky26a_IEEE_open_silicon_FOSSEE/design_data_diffamp/test_design/xschem/simulation/new.sch
+**.subckt new
+V1 VDD 0 1.8
+V2 vinn 0 sin 0.9 10m 1e6 0 0
+V3 vinm 0 0.9
+V4 vbias 0 0.85
+C1 out 0 10p
+XM1 out net1 VDD VDD sky130_fd_pr__pfet_01v8 L=0.5 W=80 nf=1 ad=23.2 as=23.2 pd=160.58 ps=160.58 nrd=0.003625 nrs=0.003625 sa=0
++ sb=0 sd=0 mult=1
+XM2 VDD net1 net1 VDD sky130_fd_pr__pfet_01v8 L=0.5 W=80 nf=1 ad=23.2 as=23.2 pd=160.58 ps=160.58 nrd=0.003625 nrs=0.003625 sa=0
++ sb=0 sd=0 mult=1
+XM3 net1 vinn net2 0 sky130_fd_pr__nfet_01v8 L=0.5 W=40 nf=1 ad=11.6 as=11.6 pd=80.58 ps=80.58 nrd=0.00725 nrs=0.00725 sa=0 sb=0
++ sd=0 mult=1
+XM4 net2 vinm out 0 sky130_fd_pr__nfet_01v8 L=0.5 W=40 nf=1 ad=11.6 as=11.6 pd=80.58 ps=80.58 nrd=0.00725 nrs=0.00725 sa=0 sb=0
++ sd=0 mult=1
+XM5 net2 vbias 0 0 sky130_fd_pr__nfet_01v8 L=0.5 W=16 nf=1 ad=4.64 as=4.64 pd=32.58 ps=32.58 nrd=0.018125 nrs=0.018125 sa=0 sb=0
++ sd=0 mult=1
+**** begin user architecture code
+
+** opencircuitdesign pdks install
+.lib /foss/pdks/sky130A/libs.tech/combined/sky130.lib.spice tt
+
+
+
+.include /foss/designs/ttsky26a_IEEE_open_silicon_FOSSEE/design_data_diffamp/test_design/xschem/simulation/DIFF_AMP_TB.save
+
+.control
+save all
+op
+set appendwrite
+write DIFF_AMP_TRANS.raw
+
+tran 0.1n 10u
+write DIFF_AMP_TRANS.raw
+.endc
+
+
+**** end user architecture code
+**.ends
+.end
